@@ -39,7 +39,7 @@ func (c *ControllerV1) SendVerificationCode(ctx context.Context, req *v1.SendVer
 
 // Register 邮箱注册（POST /api/auth/register）
 func (c *ControllerV1) Register(ctx context.Context, req *v1.RegisterReq) (res *v1.RegisterRes, err error) {
-	user, token, err := c.userSvc.EmailSignUp(ctx, req.Email, req.Code, req.Password, req.Name)
+	user, token, err := c.userSvc.EmailSignUp(ctx, req.Email, req.Code, req.Password, req.Name, req.Phone)
 	if err != nil {
 		return nil, err
 	}

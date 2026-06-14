@@ -34,4 +34,6 @@ type IUserV1 interface {
 	Register(ctx context.Context, req *v1.RegisterReq) (res *v1.RegisterRes, err error)
 	// PUT /api/auth/password - 重置密码
 	ResetPassword(ctx context.Context, req *v1.ResetPasswordReq) (res *v1.ResetPasswordRes, err error)
+	// PUT /api/users/me/phone - 更新手机号
+	UpdatePhone(ctx context.Context, req *v1.UpdatePhoneReq) (res *v1.UpdatePhoneRes, err error)
 }

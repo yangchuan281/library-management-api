@@ -186,6 +186,23 @@ func (s *Service) GetCurrentUserId(ctx context.Context) (uint64, error) {
 	return customCtx.User.Id, nil
 }
 
+// UpdatePhone 更新当前用户的手机号
+func (s *Service) UpdatePhone(ctx context.Context, phone string) error {
+	customCtx := s.bizCtxSvc.Get(ctx)
+	if customCtx == nil || customCtx.User == nil {
+		return errors.New("用户未登录")
+	}
+
+	_, err := dao.Users.Ctx(ctx).Where("id", customCtx.User.Id).Update(g.Map{
+		"phone": phone,
+	})
+	if err != nil {
+		return errors.New("手机号更新失败")
+	}
+
+	return nil
+}
+
 // ==================== 实验三新增：RESTful 邮箱注册/登录/重置密码 ====================
 
 // LoginInput 统一登录参数（支持邮箱或手机号）
@@ -275,7 +292,7 @@ func (s *Service) SendRegisterCode(ctx context.Context, emailAddr string) (strin
 }
 
 // EmailSignUp 邮箱注册（含验证码验证）
-func (s *Service) EmailSignUp(ctx context.Context, emailAddr, code, password, name string) (*entity.Users, string, error) {
+func (s *Service) EmailSignUp(ctx context.Context, emailAddr, code, password, name, phone string) (*entity.Users, string, error) {
 	// 验证验证码有效性
 	record, err := g.DB().Model("verification_codes").
 		Where("email = ? AND code = ? AND type = ? AND used = 0", emailAddr, code, "register").
@@ -302,7 +319,6 @@ func (s *Service) EmailSignUp(ctx context.Context, emailAddr, code, password, na
 		return nil, "", err
 	}
 
-	randPhone := ""
 
 	// 创建用户
 	var userId uint64
@@ -310,7 +326,7 @@ func (s *Service) EmailSignUp(ctx context.Context, emailAddr, code, password, na
 		id, err := tx.Model("users").Data(g.Map{
 			"name":     name,
 			"email":    emailAddr,
-			"phone":    randPhone,
+			"phone":    phone,
 			"password": encryptPassword(password),
 			"status":   1,
 		}).InsertAndGetId()
@@ -325,7 +341,7 @@ func (s *Service) EmailSignUp(ctx context.Context, emailAddr, code, password, na
 	}
 
 	// 生成JWT Token
-	token, err := s.jwtSvc.GenerateToken(userId, randPhone, emailAddr, "user")
+	token, err := s.jwtSvc.GenerateToken(userId, phone, emailAddr, "user")
 	if err != nil {
 		return nil, "", errors.New("Token生成失败")
 	}
@@ -335,7 +351,7 @@ func (s *Service) EmailSignUp(ctx context.Context, emailAddr, code, password, na
 		Id:    userId,
 		Name:  name,
 		Email: emailAddr,
-		Phone: randPhone,
+		Phone: phone,
 	}
 
 	return user, token, nil

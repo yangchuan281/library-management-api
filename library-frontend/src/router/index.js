@@ -12,13 +12,13 @@ const routes = [
   {
     path: '/',
     component: () => import('../layouts/AppLayout.vue'),
-    redirect: '/books',
+    redirect: '/login',
     children: [
       {
         path: 'books',
         name: 'Books',
         component: () => import('../views/Books.vue'),
-        meta: { title: '图书浏览' }
+        meta: { title: '图书浏览', requiresAuth: true }
       },
       {
         path: 'books/manage',

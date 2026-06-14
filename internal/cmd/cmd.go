@@ -104,6 +104,10 @@ func mainFunc(ctx context.Context, parser *gcmd.Parser) (err error) {
 			group.GET("/borrows", borrowCtrl.List)
 			group.PUT("/borrows/{id}/return", borrowCtrl.Return)
 		})
+
+				// ─── 个人设置（登录即可）───
+				// PUT    /api/users/me/phone        更新手机号
+				group.PUT("/users/me/phone", userCtrl.UpdatePhone)
 	})
 
 	s.Run()

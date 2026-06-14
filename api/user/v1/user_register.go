@@ -18,6 +18,7 @@ type RegisterReq struct {
 	Code     string `v:"required|length:4,4" dc:"邮箱验证码（4位数字）"`
 	Password string `v:"required|length:6,32" dc:"密码"`
 	Name     string `v:"required" dc:"用户姓名"`
+	Phone    string `dc:"手机号"`
 }
 
 // RegisterRes 邮箱注册响应
