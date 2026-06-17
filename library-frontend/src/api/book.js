@@ -1,3 +1,7 @@
+﻿// ============================================================
+// 【学生自己编写的代码】图书增删改查的API调用函数
+// ============================================================
+
 import request from './request'
 
 export const getBooksApi = (params) =>
@@ -14,3 +18,5 @@ export const updateBookApi = (id, data) =>
 
 export const deleteBookApi = (id) =>
   request.delete(`/books/${id}`)
+
+

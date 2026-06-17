@@ -1,3 +1,6 @@
+﻿// ============================================================
+// 【学生自己编写的代码】前端入口文件
+// ============================================================
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 import ElementPlus from 'element-plus'
@@ -17,3 +20,6 @@ for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
 }
 
 app.mount('#app')
+
+
+

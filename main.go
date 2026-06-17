@@ -1,3 +1,7 @@
+﻿// ============================================================
+// 【学生自己编写的代码】程序入口文件
+// 作用：启动HTTP服务器，是整个后端程序的起点
+// ============================================================
 // 我真诚地保证：
 // 我自己独立地完成了整个程序从分析、设计到编码的所有工作。
 // 如果在上述过程中，我遇到了什么困难而求教于人，那么，我将在程序实习报告中
@@ -10,11 +14,17 @@
 package main
 
 import (
+	// 导入MySQL驱动（GoFrame框架提供的，用于连接MySQL数据库）
+	_ "github.com/gogf/gf/contrib/drivers/mysql/v2"
 	_ "github.com/gogf/gf/contrib/drivers/mysql/v2"
 	"library-management-api/internal/cmd"
 	"github.com/gogf/gf/v2/os/gctx"
 )
 
+// main 函数：程序启动的第一个入口
+// 调用 cmd.Main.Run() 启动HTTP服务器（路由注册在 cmd.go 中）
 func main() {
+		// 【核心】启动HTTP服务器，具体的路由配置请看 internal/cmd/cmd.go
 	cmd.Main.Run(gctx.New())
 }
+

@@ -1,0 +1,224 @@
+{
+  "info": {
+    "name": "图书馆管理系统 - 实验三API测试",
+    "description": "涵盖全部接口的测试集合。响应格式：{ code: 0, message: \"OK\", data: {...} }",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "🔐 认证服务",
+      "item": [
+        {
+          "name": "发送验证码（注册）",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "url": {"raw": "http://localhost:8000/api/auth/verification-codes", "host": ["http://localhost:8000"], "path": ["api", "auth", "verification-codes"]},
+            "body": {"mode": "raw", "raw": "{\n  \"email\": \"your-email@example.com\",\n  \"type\": \"register\"\n}"}
+          }
+        },
+        {
+          "name": "发送验证码（重置密码）",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "url": {"raw": "http://localhost:8000/api/auth/verification-codes", "host": ["http://localhost:8000"], "path": ["api", "auth", "verification-codes"]},
+            "body": {"mode": "raw", "raw": "{\n  \"email\": \"your-email@example.com\",\n  \"type\": \"reset\"\n}"}
+          }
+        },
+        {
+          "name": "邮箱注册（含验证码）",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "url": {"raw": "http://localhost:8000/api/auth/register", "host": ["http://localhost:8000"], "path": ["api", "auth", "register"]},
+            "body": {"mode": "raw", "raw": "{\n  \"email\": \"your-email@example.com\",\n  \"code\": \"1234\",\n  \"password\": \"123456\",\n  \"name\": \"张三\",\n  \"phone\": \"13800138000\"\n}"}
+          }
+        },
+        {
+          "name": "登录（邮箱）",
+          "event": [{"listen": "test", "script": {"exec": ["var jsonData = JSON.parse(responseBody);", "if (jsonData.data && jsonData.data.token) {", "    pm.collectionVariables.set('token', jsonData.data.token);", "}", "if (jsonData.data && jsonData.data.role) {", "    pm.collectionVariables.set('role', jsonData.data.role);", "}"], "type": "text/javascript"}}],
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "url": {"raw": "http://localhost:8000/api/auth/login", "host": ["http://localhost:8000"], "path": ["api", "auth", "login"]},
+            "body": {"mode": "raw", "raw": "{\n  \"email\": \"admin@qq.com\",\n  \"password\": \"123456\"\n}"}
+          }
+        },
+        {
+          "name": "登录（手机号）",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "url": {"raw": "http://localhost:8000/api/auth/login", "host": ["http://localhost:8000"], "path": ["api", "auth", "login"]},
+            "body": {"mode": "raw", "raw": "{\n  \"phone\": \"13900001111\",\n  \"password\": \"123456\"\n}"}
+          }
+        },
+        {
+          "name": "登出",
+          "request": {
+            "method": "DELETE",
+            "header": [{"key": "Content-Type", "value": "application/json"}, {"key": "Authorization", "value": "Bearer {{token}}"}],
+            "url": {"raw": "http://localhost:8000/api/auth/logout", "host": ["http://localhost:8000"], "path": ["api", "auth", "logout"]}
+          }
+        },
+        {
+          "name": "重置密码（验证码）",
+          "request": {
+            "method": "PUT",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "url": {"raw": "http://localhost:8000/api/auth/password", "host": ["http://localhost:8000"], "path": ["api", "auth", "password"]},
+            "body": {"mode": "raw", "raw": "{\n  \"email\": \"your-email@example.com\",\n  \"code\": \"1234\",\n  \"newPassword\": \"newpass123\"\n}"}
+          }
+        }
+      ]
+    },
+    {
+      "name": "👤 用户服务",
+      "item": [
+        {
+          "name": "手机号注册",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "url": {"raw": "http://localhost:8000/api/users/", "host": ["http://localhost:8000"], "path": ["api", "users", ""]},
+            "body": {"mode": "raw", "raw": "{\n  \"name\": \"李四\",\n  \"email\": \"lisi@test.com\",\n  \"phone\": \"13900139000\",\n  \"password\": \"123456\"\n}"}
+          }
+        },
+        {
+          "name": "获取个人信息",
+          "request": {
+            "method": "GET",
+            "header": [{"key": "Content-Type", "value": "application/json"}, {"key": "Authorization", "value": "Bearer {{token}}"}],
+            "url": {"raw": "http://localhost:8000/api/users/me", "host": ["http://localhost:8000"], "path": ["api", "users", "me"]}
+          }
+        },
+        {
+          "name": "更新手机号",
+          "request": {
+            "method": "PUT",
+            "header": [{"key": "Content-Type", "value": "application/json"}, {"key": "Authorization", "value": "Bearer {{token}}"}],
+            "url": {"raw": "http://localhost:8000/api/users/me/phone", "host": ["http://localhost:8000"], "path": ["api", "users", "me", "phone"]},
+            "body": {"mode": "raw", "raw": "{\n  \"phone\": \"18812345678\"\n}"}
+          }
+        }
+      ]
+    },
+    {
+      "name": "📚 图书服务（公开）",
+      "item": [
+        {
+          "name": "获取图书列表",
+          "request": {
+            "method": "GET",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "url": {"raw": "http://localhost:8000/api/books?page=1&size=10", "host": ["http://localhost:8000"], "path": ["api", "books"], "query": [{"key": "page", "value": "1"}, {"key": "size", "value": "10"}]}
+          }
+        },
+        {
+          "name": "搜索图书（按书名）",
+          "request": {
+            "method": "GET",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "url": {"raw": "http://localhost:8000/api/books?page=1&size=10&title=Java", "host": ["http://localhost:8000"], "path": ["api", "books"], "query": [{"key": "page", "value": "1"}, {"key": "size", "value": "10"}, {"key": "title", "value": "Java"}]}
+          }
+        },
+        {
+          "name": "获取图书详情",
+          "request": {
+            "method": "GET",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "url": {"raw": "http://localhost:8000/api/books/1", "host": ["http://localhost:8000"], "path": ["api", "books", "1"]}
+          }
+        }
+      ]
+    },
+    {
+      "name": "🔧 图书管理（需管理员）",
+      "item": [
+        {
+          "name": "创建图书",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}, {"key": "Authorization", "value": "Bearer {{token}}"}],
+            "url": {"raw": "http://localhost:8000/api/books", "host": ["http://localhost:8000"], "path": ["api", "books"]},
+            "body": {"mode": "raw", "raw": "{\n  \"title\": \"Go语言编程\",\n  \"author\": \"张三\",\n  \"isbn\": \"978-7-111-11111-1\",\n  \"publish_date\": \"2024-01-01\"\n}"}
+          }
+        },
+        {
+          "name": "更新图书",
+          "request": {
+            "method": "PUT",
+            "header": [{"key": "Content-Type", "value": "application/json"}, {"key": "Authorization", "value": "Bearer {{token}}"}],
+            "url": {"raw": "http://localhost:8000/api/books/1", "host": ["http://localhost:8000"], "path": ["api", "books", "1"]},
+            "body": {"mode": "raw", "raw": "{\n  \"title\": \"Go语言编程（第二版）\",\n  \"author\": \"李四\",\n  \"isbn\": \"978-7-111-22222-2\",\n  \"status\": 1\n}"}
+          }
+        },
+        {
+          "name": "删除图书",
+          "request": {
+            "method": "DELETE",
+            "header": [{"key": "Content-Type", "value": "application/json"}, {"key": "Authorization", "value": "Bearer {{token}}"}],
+            "url": {"raw": "http://localhost:8000/api/books/1", "host": ["http://localhost:8000"], "path": ["api", "books", "1"]}
+          }
+        },
+        {
+          "name": "【验证权限】普通用户创建图书",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}, {"key": "Authorization", "value": "Bearer {{token}}"}],
+            "url": {"raw": "http://localhost:8000/api/books", "host": ["http://localhost:8000"], "path": ["api", "books"]},
+            "body": {"mode": "raw", "raw": "{\n  \"title\": \"测试\",\n  \"author\": \"测试\",\n  \"isbn\": \"978-7-000-00000-0\"\n}"}
+          }
+        }
+      ]
+    },
+    {
+      "name": "📖 借阅服务（需登录）",
+      "item": [
+        {
+          "name": "借阅图书",
+          "request": {
+            "method": "POST",
+            "header": [{"key": "Content-Type", "value": "application/json"}, {"key": "Authorization", "value": "Bearer {{token}}"}],
+            "url": {"raw": "http://localhost:8000/api/borrows", "host": ["http://localhost:8000"], "path": ["api", "borrows"]},
+            "body": {"mode": "raw", "raw": "{\n  \"book_id\": 3\n}"}
+          }
+        },
+        {
+          "name": "获取借阅记录",
+          "request": {
+            "method": "GET",
+            "header": [{"key": "Content-Type", "value": "application/json"}, {"key": "Authorization", "value": "Bearer {{token}}"}],
+            "url": {"raw": "http://localhost:8000/api/borrows?page=1&size=10", "host": ["http://localhost:8000"], "path": ["api", "borrows"], "query": [{"key": "page", "value": "1"}, {"key": "size", "value": "10"}]}
+          }
+        },
+        {
+          "name": "归还图书",
+          "request": {
+            "method": "PUT",
+            "header": [{"key": "Content-Type", "value": "application/json"}, {"key": "Authorization", "value": "Bearer {{token}}"}],
+            "url": {"raw": "http://localhost:8000/api/borrows/1/return", "host": ["http://localhost:8000"], "path": ["api", "borrows", "1", "return"]}
+          }
+        }
+      ]
+    },
+    {
+      "name": "⚠️ 异常场景测试",
+      "item": [
+        {
+          "name": "未认证请求（预期401）",
+          "request": {
+            "method": "GET",
+            "header": [{"key": "Content-Type", "value": "application/json"}],
+            "url": {"raw": "http://localhost:8000/api/borrows", "host": ["http://localhost:8000"], "path": ["api", "borrows"]}
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {"key": "token", "value": "登录后自动填充，也可手动填入"},
+    {"key": "role", "value": "user"}
+  ]
+}

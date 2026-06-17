@@ -1,3 +1,7 @@
+﻿// ============================================================
+// 【学生自己编写的代码】图书业务逻辑层
+// 作用：实现图书的增删改查，是真正的"干活"的地方
+// ============================================================
 // 我真诚地保证：
 // 我自己独立地完成了整个程序从分析、设计到编码的所有工作。
 // 如果在上述过程中，我遇到了什么困难而求教于人，那么，我将在程序实习报告中
@@ -19,13 +23,18 @@ import (
 )
 
 // Service provides book-related business logic.
+// Service 图书业务结构体
+// 【设计思路】Service层封装了所有的业务逻辑
+// Controller调用Service，Service调用DAO操作数据库
 type Service struct{}
 
+// New 创建Service实例
 func New() *Service {
 	return &Service{}
 }
 
 // CreateInput defines input for creating a new book.
+// CreateInput 创建图书的输入参数
 type CreateInput struct {
 	Title       string
 	Author      string
@@ -34,8 +43,11 @@ type CreateInput struct {
 }
 
 // Create adds a new book.
+// 【自己写的】创建图书
+// 步骤：检查ISBN是否已存在 → 插入数据库 → 返回新书ID
 func (s *Service) Create(ctx context.Context, in CreateInput) (bookId uint64, err error) {
 	// 检查ISBN是否已存在
+		// 【业务规则】检查ISBN号是否已被占用（每本书的ISBN必须唯一）
 	count, err := dao.Books.Ctx(ctx).Where("isbn", in.Isbn).Count()
 	if err != nil {
 		return 0, err
@@ -91,7 +103,10 @@ type ListOutput struct {
 }
 
 // List retrieves books with pagination and filters.
+// 【自己写的】获取图书列表
+// 支持：按书名模糊搜索、按状态筛选、分页
 func (s *Service) List(ctx context.Context, in ListInput) (*ListOutput, error) {
+		// 构建查询：支持按书名模糊搜索和状态筛选
 	m := dao.Books.Ctx(ctx)
 
 	if in.Title != "" {
@@ -102,6 +117,7 @@ func (s *Service) List(ctx context.Context, in ListInput) (*ListOutput, error) {
 	}
 
 	// 获取总数
+		// 先查总数（用于分页）
 	total, err := m.Count()
 	if err != nil {
 		return nil, err
@@ -109,6 +125,7 @@ func (s *Service) List(ctx context.Context, in ListInput) (*ListOutput, error) {
 
 	// 分页查询
 	var books []*entity.Books
+		// 再查数据（带分页，按ID倒序）
 	err = m.Page(in.Page, in.Size).OrderDesc("id").Scan(&books)
 	if err != nil {
 		return nil, err
@@ -133,6 +150,8 @@ type UpdateInput struct {
 }
 
 // Update modifies book information.
+// 【自己写的】更新图书信息
+// 特点：只更新用户填写的字段，没填的保持不变
 func (s *Service) Update(ctx context.Context, in UpdateInput) error {
 	data := g.Map{}
 	if in.Title != "" {
@@ -168,8 +187,11 @@ func (s *Service) Update(ctx context.Context, in UpdateInput) error {
 }
 
 // Delete removes a book by ID.
+// 【自己写的】删除图书
+// 【安全措施】先检查该书是否有未归还的借阅记录，有则禁止删除
 func (s *Service) Delete(ctx context.Context, id uint64) error {
 	// 检查是否有未归还的借阅记录
+		// 【安全校验】检查是否有未归还的借阅记录
 	count, err := dao.Borrows.Ctx(ctx).Where("book_id", id).Where("return_at IS NULL").Count()
 	if err != nil {
 		return err
@@ -181,3 +203,4 @@ func (s *Service) Delete(ctx context.Context, id uint64) error {
 	_, err = dao.Books.Ctx(ctx).Where("id", id).Delete()
 	return err
 }
+

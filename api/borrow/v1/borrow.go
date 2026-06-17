@@ -1,3 +1,6 @@
+﻿// ============================================================
+// 【学生自己编写的代码】借阅API请求/响应结构体定义
+// ============================================================
 // 我真诚地保证：
 // 我自己独立地完成了整个程序从分析、设计到编码的所有工作。
 // 如果在上述过程中，我遇到了什么困难而求教于人，那么，我将在程序实习报告中
@@ -12,6 +15,8 @@ package v1
 import "github.com/gogf/gf/v2/frame/g"
 
 // BorrowReq 借阅图书请求
+// BorrowReq 借书请求
+// BookId：要借的图书ID（必填）
 type BorrowReq struct {
 	g.Meta `path:"/borrows" method:"post" tags:"借阅服务" summary:"借阅图书"`
 	BookId uint64 `v:"required" dc:"图书ID"`
@@ -26,6 +31,8 @@ type BorrowRes struct {
 }
 
 // ReturnReq 归还图书请求
+// ReturnReq 还书请求
+// Id：借阅记录ID（从URL路径获取）
 type ReturnReq struct {
 	g.Meta `path:"/borrows/{id}/return" method:"put" tags:"借阅服务" summary:"归还图书"`
 	Id     uint64 `v:"required" dc:"借阅记录ID"`
@@ -62,3 +69,5 @@ type BorrowItem struct {
 	BorrowAt  string `json:"borrow_at" dc:"借阅时间"`
 	ReturnAt  string `json:"return_at" dc:"归还时间"`
 }
+
+

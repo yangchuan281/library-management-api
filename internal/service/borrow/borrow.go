@@ -1,3 +1,7 @@
+﻿// ============================================================
+// 【学生自己编写的代码】借阅业务逻辑层（含数据库事务）
+// 作用：实现借书、还书、借阅列表查询
+// ============================================================
 // 我真诚地保证：
 // 我自己独立地完成了整个程序从分析、设计到编码的所有工作。
 // 如果在上述过程中，我遇到了什么困难而求教于人，那么，我将在程序实习报告中
@@ -22,6 +26,7 @@ import (
 )
 
 // Service provides borrow-related business logic.
+// Service 借阅业务结构体
 type Service struct {
 	bizCtxSvc *bizctx.Service
 }
@@ -33,6 +38,7 @@ func New() *Service {
 }
 
 // BorrowInput defines input for borrowing a book.
+// BorrowInput 借书输入参数
 type BorrowInput struct {
 	UserId uint64
 	BookId uint64
@@ -46,9 +52,17 @@ type BorrowOutput struct {
 }
 
 // Borrow borrows a book for a user.
+// 【自己写的】借书（核心功能）
+// 使用数据库事务保证数据一致性：
+//   1. 检查图书是否存在且可借阅
+//   2. 检查用户是否已借阅同一本书未还
+//   3. 创建借阅记录
+//   4. 更新图书状态为"已借出"
+// 【重点】以上4步在同一个事务中，要么全部成功要么全部回滚
 func (s *Service) Borrow(ctx context.Context, in BorrowInput) (*BorrowOutput, error) {
 	var result BorrowOutput
 
+		// 【数据库事务】保证借书操作的原子性
 	err := g.DB().Transaction(ctx, func(ctx context.Context, tx gdb.TX) error {
 		// 检查图书是否存在且可借阅
 		var book entity.Books
@@ -58,6 +72,7 @@ func (s *Service) Borrow(ctx context.Context, in BorrowInput) (*BorrowOutput, er
 		if book.Id == 0 {
 			return errors.New("图书不存在")
 		}
+				// 如果图书状态不是1（可借阅），则拒绝借出
 		if book.Status != 1 {
 			return errors.New("图书当前不可借阅")
 		}
@@ -87,6 +102,7 @@ func (s *Service) Borrow(ctx context.Context, in BorrowInput) (*BorrowOutput, er
 		result.Id = uint64(id)
 
 		// 更新图书状态为已借出
+				// 步骤4：更新图书状态为"已借出(0)"
 		if _, err := tx.Model("books").Where("id", in.BookId).Data(g.Map{"status": 0}).Update(); err != nil {
 			return err
 		}
@@ -111,7 +127,13 @@ func (s *Service) Borrow(ctx context.Context, in BorrowInput) (*BorrowOutput, er
 }
 
 // Return marks a book as returned.
+// 【自己写的】还书（核心功能）
+// 使用事务：
+//   1. 检查借阅记录是否存在且未归还
+//   2. 更新归还时间
+//   3. 恢复图书状态为"可借阅"
 func (s *Service) Return(ctx context.Context, borrowId uint64) (returnAt string, err error) {
+		// 还书也使用事务保证数据一致性
 	err = g.DB().Transaction(ctx, func(ctx context.Context, tx gdb.TX) error {
 		// 查找借阅记录
 		var borrow entity.Borrows
@@ -121,6 +143,7 @@ func (s *Service) Return(ctx context.Context, borrowId uint64) (returnAt string,
 		if borrow.Id == 0 {
 			return errors.New("借阅记录不存在")
 		}
+				// 如果已归还过，则拒绝重复操作
 		if borrow.ReturnAt != nil {
 			return errors.New("该书已归还")
 		}
@@ -134,6 +157,7 @@ func (s *Service) Return(ctx context.Context, borrowId uint64) (returnAt string,
 		}
 
 		// 恢复图书可借阅状态
+				// 步骤3：恢复图书状态为"可借阅(1)"
 		if _, err := tx.Model("books").Where("id", borrow.BookId).Data(g.Map{"status": 1}).Update(); err != nil {
 			return err
 		}
@@ -164,6 +188,8 @@ type BorrowRecord struct {
 	ReturnAt  string `json:"return_at"`
 }
 
+// 【自己写的】查询借阅列表（支持分页+状态筛选）
+// 用 LEFT JOIN 关联 users 和 books 表，获取用户名和书名
 func (s *Service) List(ctx context.Context, in ListInput) (total int, records []BorrowRecord, err error) {
 
     // 基础查询
@@ -218,3 +244,4 @@ func (s *Service) GetCurrentUserId(ctx context.Context) (uint64, error) {
 	}
 	return customCtx.User.Id, nil
 }
+

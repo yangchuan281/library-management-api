@@ -1,3 +1,7 @@
+﻿// ============================================================
+// 【学生自己编写的代码】登录/注册/重置密码的API调用函数
+// ============================================================
+
 import request from './request'
 
 export const sendCodeApi = (email, type) =>
@@ -14,3 +18,5 @@ export const resetPasswordApi = (data) =>
 
 export const getProfileApi = () =>
   request.get('/users/me')
+
+

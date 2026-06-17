@@ -1,3 +1,7 @@
+﻿// ============================================================
+// 【学生自己编写的代码】Pinia状态管理——记住登录状态和用户信息
+// ============================================================
+
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
 import { loginApi, getProfileApi } from '../api/auth'
@@ -44,3 +48,5 @@ export const useAuthStore = defineStore('auth', () => {
 
   return { token, user, isLoggedIn, setToken, login, fetchProfile, logout }
 })
+
+

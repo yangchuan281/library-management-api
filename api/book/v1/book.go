@@ -1,3 +1,8 @@
+﻿// ============================================================
+// 【学生自己编写的代码】图书API请求/响应结构体定义
+// 作用：定义前端和后端通信的数据格式规范
+// 提示：这里定义了每个API接口需要传什么参数、返回什么数据
+// ============================================================
 // 我真诚地保证：
 // 我自己独立地完成了整个程序从分析、设计到编码的所有工作。
 // 如果在上述过程中，我遇到了什么困难而求教于人，那么，我将在程序实习报告中
@@ -12,6 +17,8 @@ package v1
 import "github.com/gogf/gf/v2/frame/g"
 
 // CreateReq 创建图书请求
+// CreateReq 创建图书请求
+// 前端POST /api/books 时需要传这三个字段（Title/Author/Isbn为必填）
 type CreateReq struct {
 	g.Meta       `path:"/books" method:"post" tags:"图书服务" summary:"新增图书"`
 	Title        string `v:"required" dc:"图书名称"`
@@ -21,6 +28,8 @@ type CreateReq struct {
 }
 
 // CreateRes 创建图书响应
+// CreateRes 创建图书成功后的返回值
+// 返回新书的ID、书名和ISBN
 type CreateRes struct {
 	Id     uint64 `json:"id" dc:"图书ID"`
 	Title  string `json:"title" dc:"图书名称"`
@@ -28,6 +37,8 @@ type CreateRes struct {
 }
 
 // ListReq 图书列表请求
+// ListReq 图书列表查询请求
+// Page/Size：分页参数；Title：按书名模糊搜索；Status：按状态筛选
 type ListReq struct {
 	g.Meta `path:"/books" method:"get" tags:"图书服务" summary:"获取图书列表"`
 	Page   int `d:"1" dc:"页码"`
@@ -37,6 +48,7 @@ type ListReq struct {
 }
 
 // ListRes 图书列表响应
+// ListRes 图书列表返回值（含分页信息）
 type ListRes struct {
 	List     []BookItem `json:"list" dc:"图书列表"`
 	Total    int        `json:"total" dc:"总条数"`
@@ -55,6 +67,8 @@ type BookItem struct {
 }
 
 // GetReq 获取图书详情请求
+// GetReq 获取单本图书详情请求
+// Id：图书ID（从URL路径中获取）
 type GetReq struct {
 	g.Meta `path:"/books/{id}" method:"get" tags:"图书服务" summary:"获取图书详情"`
 	Id     uint64 `v:"required" dc:"图书ID"`
@@ -66,6 +80,8 @@ type GetRes struct {
 }
 
 // UpdateReq 更新图书信息请求
+// UpdateReq 更新图书信息请求
+// 不填的字段不会修改，只更新填了的字段
 type UpdateReq struct {
 	g.Meta       `path:"/books/{id}" method:"put" tags:"图书服务" summary:"更新图书信息"`
 	Id           uint64 `v:"required" dc:"图书ID"`
@@ -83,6 +99,7 @@ type UpdateRes struct {
 }
 
 // DeleteReq 删除图书请求
+// DeleteReq 删除图书请求
 type DeleteReq struct {
 	g.Meta `path:"/books/{id}" method:"delete" tags:"图书服务" summary:"删除图书"`
 	Id     uint64 `v:"required" dc:"图书ID"`
@@ -91,3 +108,5 @@ type DeleteReq struct {
 // DeleteRes 删除图书响应
 type DeleteRes struct {
 }
+
+
