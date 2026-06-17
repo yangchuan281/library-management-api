@@ -1,7 +1,4 @@
-﻿<!-- ============================================================
-  【学生自己编写的代码】图书浏览页面（所有人可见）
-  ============================================================ -->
-<template>
+﻿<template>
   <div>
     <!-- 搜索栏 -->
     <el-card shadow="never" style="margin-bottom:16px;">
@@ -96,5 +93,6 @@ function resetQuery() {
 
 onMounted(fetchBooks)
 </script>
+
 
 

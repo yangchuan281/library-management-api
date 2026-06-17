@@ -1,7 +1,4 @@
 ﻿// ============================================================
-// 【学生自己编写的代码】中间件（身份验证 + 权限控制）
-// 作用：在每个HTTP请求处理之前执行，检查用户身份和权限
-// ============================================================
 // 我真诚地保证：
 // 我自己独立地完成了整个程序从分析、设计到编码的所有工作。
 // 如果在上述过程中，我遇到了什么困难而求教于人，那么，我将在程序实习报告中
@@ -42,7 +39,7 @@ func New() *Service {
 }
 
 // Ctx injects custom business context into request context.
-// 【自己写的】Ctx中间件——解析用户身份（每个请求都会经过）
+//Ctx中间件——解析用户身份（每个请求都会经过）
 // 1. 先从Session中获取用户信息（旧方式）
 // 2. 如果Session中没有，再从JWT Token中解析（新方式，支持前端Bearer Token）
 func (s *Service) Ctx(r *ghttp.Request) {
@@ -88,7 +85,7 @@ func (s *Service) Ctx(r *ghttp.Request) {
 }
 
 // Auth checks if user is signed in.
-// 【自己写的】Auth中间件——检查用户是否已登录
+//Auth中间件——检查用户是否已登录
 // 如果未登录，返回403错误
 func (s *Service) Auth(r *ghttp.Request) {
 	if !s.userSvc.IsSignedIn(r.Context()) {
@@ -99,7 +96,7 @@ func (s *Service) Auth(r *ghttp.Request) {
 }
 
 // Admin checks if user is an admin.
-// 【自己写的】Admin中间件——检查用户是否为管理员
+//Admin中间件——检查用户是否为管理员
 // 如果角色不是"admin"，返回403权限不足
 func (s *Service) Admin(r *ghttp.Request) {
 	customCtx := s.bizCtxSvc.Get(r.Context())
@@ -109,4 +106,5 @@ func (s *Service) Admin(r *ghttp.Request) {
 	}
 	r.Middleware.Next()
 }
+
 

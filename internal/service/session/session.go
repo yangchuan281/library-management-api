@@ -1,7 +1,4 @@
 ﻿// ============================================================
-// 【学生自己编写的代码】Session会话管理服务
-// 作用：在Session中存储和读取用户信息
-// ============================================================
 // 我真诚地保证：
 // 我自己独立地完成了整个程序从分析、设计到编码的所有工作。
 // 如果在上述过程中，我遇到了什么困难而求教于人，那么，我将在程序实习报告中
@@ -33,13 +30,13 @@ func New() *Service {
 }
 
 // SetUser stores user info into session.
-// 【自己写的】将用户信息存入Session
+//将用户信息存入Session
 func (s *Service) SetUser(ctx context.Context, user *entity.Users) error {
 	return s.bizCtxSvc.Get(ctx).Session.Set(UserSessionKey, user)
 }
 
 // GetUser retrieves and returns user from session.
-// 【自己写的】从Session获取用户信息
+//从Session获取用户信息
 func (s *Service) GetUser(ctx context.Context) *entity.Users {
 	customCtx := s.bizCtxSvc.Get(ctx)
 	if customCtx != nil {
@@ -60,4 +57,5 @@ func (s *Service) RemoveUser(ctx context.Context) error {
 	}
 	return nil
 }
+
 

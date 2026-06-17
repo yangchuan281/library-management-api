@@ -1,7 +1,4 @@
-﻿<!-- ============================================================
-  【学生自己编写的代码】我的借阅页面
-  ============================================================ -->
-<template>
+﻿<template>
   <div>
     <!-- 借阅操作栏 -->
     <el-card shadow="never" style="margin-bottom:16px;">
@@ -95,5 +92,6 @@ async function handleReturn(id) {
 
 onMounted(fetchBorrows)
 </script>
+
 
 

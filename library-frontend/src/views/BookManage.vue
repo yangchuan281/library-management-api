@@ -1,7 +1,4 @@
-﻿<!-- ============================================================
-  【学生自己编写的代码】图书管理页面（仅管理员）
-  ============================================================ -->
-<template>
+﻿<template>
   <div>
     <!-- 工具栏 -->
     <el-card shadow="never" style="margin-bottom:16px;">
@@ -148,5 +145,6 @@ async function handleDelete(id) {
 
 onMounted(fetchBooks)
 </script>
+
 
 

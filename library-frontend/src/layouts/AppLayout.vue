@@ -1,7 +1,4 @@
-﻿<!-- ============================================================
-  【学生自己编写的代码】页面整体布局（侧边栏+顶栏）
-  ============================================================ -->
-<template>
+﻿<template>
   <el-container style="min-height: 100vh;">
     <!-- 侧边导航栏 -->
     <el-aside width="220px" style="background: #304156;">
@@ -80,5 +77,6 @@ function handleCommand(command) {
   }
 }
 </script>
+
 
 

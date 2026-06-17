@@ -1,7 +1,4 @@
 ﻿// ============================================================
-// 【学生自己编写的代码】借阅控制器
-// 作用：借书、还书、查看借阅列表
-// ============================================================
 // 我真诚地保证：
 // 我自己独立地完成了整个程序从分析、设计到编码的所有工作。
 // 如果在上述过程中，我遇到了什么困难而求教于人，那么，我将在程序实习报告中
@@ -19,7 +16,7 @@ import (
 	borrowsvc "library-management-api/internal/service/borrow"
 )
 
-// 【自己写的】借书操作
+//借书操作
 // 1. 从上下文中获取当前登录用户ID
 // 2. 调用 borrowSvc.Borrow() 执行借书逻辑（含事务）
 func (c *ControllerV1) Borrow(ctx context.Context, req *v1.BorrowReq) (res *v1.BorrowRes, err error) {
@@ -45,7 +42,7 @@ func (c *ControllerV1) Borrow(ctx context.Context, req *v1.BorrowReq) (res *v1.B
 	}, nil
 }
 
-// 【自己写的】还书操作
+//还书操作
 // 调用 borrowSvc.Return() 执行还书逻辑（含事务）
 func (c *ControllerV1) Return(ctx context.Context, req *v1.ReturnReq) (res *v1.ReturnRes, err error) {
 	returnAt, err := c.borrowSvc.Return(ctx, req.Id)
@@ -59,7 +56,7 @@ func (c *ControllerV1) Return(ctx context.Context, req *v1.ReturnReq) (res *v1.R
 	}, nil
 }
 
-// 【自己写的】获取借阅列表
+//获取借阅列表
 // 普通用户只看自己的记录，管理员可以看全部
 func (c *ControllerV1) List(ctx context.Context, req *v1.ListReq) (res *v1.ListRes, err error) {
 	// 获取当前用户ID（普通用户只看自己的，管理员可以看全部）
@@ -98,4 +95,5 @@ func (c *ControllerV1) List(ctx context.Context, req *v1.ListReq) (res *v1.ListR
 		Size:  req.Size,
 	}, nil
 }
+
 

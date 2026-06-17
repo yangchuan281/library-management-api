@@ -1,6 +1,4 @@
 ﻿// ============================================================
-// 【学生自己编写的代码】发送验证码API - POST /api/auth/verification-codes
-// ============================================================
 // 我真诚地保证：
 // 我自己独立地完成了整个程序从分析、设计到编码的所有工作。
 // 如果在上述过程中，我遇到了什么困难而求教于人，那么，我将在程序实习报告中
@@ -25,5 +23,6 @@ type SendVerificationCodeReq struct {
 type SendVerificationCodeRes struct {
 	Message string `json:"message" dc:"提示信息"`
 }
+
 
 

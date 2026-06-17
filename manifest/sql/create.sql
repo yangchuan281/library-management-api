@@ -1,5 +1,4 @@
 ﻿-- ============================================================
--- 【学生自己编写的代码】数据库建表脚本
 -- 作用：创建图书管理系统所需的4张表
 -- 数据库：library_management
 -- ============================================================
@@ -94,4 +93,5 @@ CREATE TABLE `verification_codes` (
     KEY `idx_email_type` (`email`, `type`),
     KEY `idx_expires_at` (`expires_at`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='验证码表';
+
 

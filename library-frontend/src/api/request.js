@@ -1,7 +1,4 @@
 ﻿// ============================================================
-// 【学生自己编写的代码】Axios配置 + 请求/响应拦截器
-// 作用：配置HTTP请求的基地址、超时时间，统一处理Token和错误
-// ============================================================
 
 import axios from 'axios'
 import { ElMessage } from 'element-plus'
@@ -54,3 +51,4 @@ request.interceptors.response.use(
 )
 
 export default request
+

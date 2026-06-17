@@ -1,8 +1,4 @@
 ﻿// ============================================================
-// 【学生自己编写的代码】JWT令牌服务
-// 作用：生成和验证JWT令牌，用于用户身份认证
-// JWT优点：无状态，服务器不需要存Session，适合分布式部署
-// ============================================================
 // 我真诚地保证：
 // 我自己独立地完成了整个程序从分析、设计到编码的所有工作。
 // 如果在上述过程中，我遇到了什么困难而求教于人，那么，我将在程序实习报告中
@@ -46,7 +42,7 @@ func New() *Service {
 }
 
 // GenerateToken 生成JWT Token
-// 【自己写的】生成JWT令牌
+//生成JWT令牌
 // 包含：用户ID、手机号、邮箱、角色
 // 使用HS256算法签名
 func (s *Service) GenerateToken(userId uint64, phone, email, role string) (string, error) {
@@ -72,7 +68,7 @@ func (s *Service) GenerateToken(userId uint64, phone, email, role string) (strin
 }
 
 // ParseToken 解析并验证JWT Token
-// 【自己写的】解析和验证JWT令牌
+//解析和验证JWT令牌
 // 验证签名是否正确、是否过期
 // 返回令牌中携带的用户信息
 func (s *Service) ParseToken(tokenString string) (*Claims, error) {
@@ -90,4 +86,5 @@ func (s *Service) ParseToken(tokenString string) (*Claims, error) {
 
 	return claims, nil
 }
+
 

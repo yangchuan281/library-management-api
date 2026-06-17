@@ -1,7 +1,4 @@
 ﻿// ============================================================
-// 【学生自己编写的代码】图书业务逻辑层
-// 作用：实现图书的增删改查，是真正的"干活"的地方
-// ============================================================
 // 我真诚地保证：
 // 我自己独立地完成了整个程序从分析、设计到编码的所有工作。
 // 如果在上述过程中，我遇到了什么困难而求教于人，那么，我将在程序实习报告中
@@ -43,7 +40,7 @@ type CreateInput struct {
 }
 
 // Create adds a new book.
-// 【自己写的】创建图书
+//创建图书
 // 步骤：检查ISBN是否已存在 → 插入数据库 → 返回新书ID
 func (s *Service) Create(ctx context.Context, in CreateInput) (bookId uint64, err error) {
 	// 检查ISBN是否已存在
@@ -103,7 +100,7 @@ type ListOutput struct {
 }
 
 // List retrieves books with pagination and filters.
-// 【自己写的】获取图书列表
+//获取图书列表
 // 支持：按书名模糊搜索、按状态筛选、分页
 func (s *Service) List(ctx context.Context, in ListInput) (*ListOutput, error) {
 		// 构建查询：支持按书名模糊搜索和状态筛选
@@ -150,7 +147,7 @@ type UpdateInput struct {
 }
 
 // Update modifies book information.
-// 【自己写的】更新图书信息
+//更新图书信息
 // 特点：只更新用户填写的字段，没填的保持不变
 func (s *Service) Update(ctx context.Context, in UpdateInput) error {
 	data := g.Map{}
@@ -187,7 +184,7 @@ func (s *Service) Update(ctx context.Context, in UpdateInput) error {
 }
 
 // Delete removes a book by ID.
-// 【自己写的】删除图书
+//删除图书
 // 【安全措施】先检查该书是否有未归还的借阅记录，有则禁止删除
 func (s *Service) Delete(ctx context.Context, id uint64) error {
 	// 检查是否有未归还的借阅记录
@@ -203,4 +200,5 @@ func (s *Service) Delete(ctx context.Context, id uint64) error {
 	_, err = dao.Books.Ctx(ctx).Where("id", id).Delete()
 	return err
 }
+
 

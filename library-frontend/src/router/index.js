@@ -1,6 +1,4 @@
 ﻿// ============================================================
-// 【学生自己编写的代码】Vue Router路由配置 + 路由守卫
-// ============================================================
 
 import { createRouter, createWebHashHistory } from 'vue-router'
 import { useAuthStore } from '../stores/auth'
@@ -75,5 +73,6 @@ router.beforeEach((to, from, next) => {
 })
 
 export default router
+
 
 

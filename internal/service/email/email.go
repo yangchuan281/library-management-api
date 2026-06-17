@@ -1,8 +1,4 @@
 ﻿// ============================================================
-// 【学生自己编写的代码】邮件发送服务
-// 作用：通过SMTP发送验证码邮件
-// 使用163邮箱的SMTP服务器，端口465（SSL加密）
-// ============================================================
 // 我真诚地保证：
 // 我自己独立地完成了整个程序从分析、设计到编码的所有工作。
 // 如果在上述过程中，我遇到了什么困难而求教于人，那么，我将在程序实习报告中
@@ -42,14 +38,14 @@ func New() *Service {
 }
 
 // GenerateCode 生成4位随机数字验证码
-// 【自己写的】生成4位随机数字验证码
+//生成4位随机数字验证码
 func (s *Service) GenerateCode() string {
 	code := rand.Intn(9000) + 1000
 	return fmt.Sprintf("%d", code)
 }
 
 // SendVerificationCode 发送验证码邮件
-// 【自己写的】发送验证码邮件
+//发送验证码邮件
 // codeType: register（注册）或 reset（重置密码）
 // 邮件内容包括验证码和有效期提示（5分钟）
 func (s *Service) SendVerificationCode(to, code, codeType string) error {
@@ -105,4 +101,5 @@ func (s *Service) SendVerificationCode(to, code, codeType string) error {
 	}
 	return nil
 }
+
 

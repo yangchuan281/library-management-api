@@ -1,7 +1,4 @@
 ﻿// ============================================================
-// 【学生自己编写的代码】借阅业务逻辑层（含数据库事务）
-// 作用：实现借书、还书、借阅列表查询
-// ============================================================
 // 我真诚地保证：
 // 我自己独立地完成了整个程序从分析、设计到编码的所有工作。
 // 如果在上述过程中，我遇到了什么困难而求教于人，那么，我将在程序实习报告中
@@ -52,7 +49,7 @@ type BorrowOutput struct {
 }
 
 // Borrow borrows a book for a user.
-// 【自己写的】借书（核心功能）
+//借书（核心功能）
 // 使用数据库事务保证数据一致性：
 //   1. 检查图书是否存在且可借阅
 //   2. 检查用户是否已借阅同一本书未还
@@ -127,7 +124,7 @@ func (s *Service) Borrow(ctx context.Context, in BorrowInput) (*BorrowOutput, er
 }
 
 // Return marks a book as returned.
-// 【自己写的】还书（核心功能）
+//还书（核心功能）
 // 使用事务：
 //   1. 检查借阅记录是否存在且未归还
 //   2. 更新归还时间
@@ -188,7 +185,7 @@ type BorrowRecord struct {
 	ReturnAt  string `json:"return_at"`
 }
 
-// 【自己写的】查询借阅列表（支持分页+状态筛选）
+//查询借阅列表（支持分页+状态筛选）
 // 用 LEFT JOIN 关联 users 和 books 表，获取用户名和书名
 func (s *Service) List(ctx context.Context, in ListInput) (total int, records []BorrowRecord, err error) {
 
@@ -244,4 +241,5 @@ func (s *Service) GetCurrentUserId(ctx context.Context) (uint64, error) {
 	}
 	return customCtx.User.Id, nil
 }
+
 

@@ -1,7 +1,4 @@
-﻿<!-- ============================================================
-  【学生自己编写的代码】个人中心页面
-  ============================================================ -->
-<template>
+﻿<template>
   <el-card shadow="never">
     <template #header>
       <div style="display:flex;justify-content:space-between;align-items:center;">
@@ -106,5 +103,6 @@ onMounted(async () => {
   }
 })
 </script>
+
 
 

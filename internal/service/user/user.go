@@ -1,7 +1,4 @@
 ﻿// ============================================================
-// 【学生自己编写的代码】用户业务逻辑层
-// 作用：用户注册、登录、登出、个人信息、邮箱验证码、密码重置
-// ============================================================
 // 我真诚地保证：
 // 我自己独立地完成了整个程序从分析、设计到编码的所有工作。
 // 如果在上述过程中，我遇到了什么困难而求教于人，那么，我将在程序实习报告中
@@ -65,7 +62,7 @@ type CreateInput struct {
 }
 
 // Create registers a new user account.
-// 【自己写的】手机号注册
+//手机号注册
 // 步骤：检查手机号/邮箱是否已注册 → 事务创建用户 → 返回用户ID
 func (s *Service) Create(ctx context.Context, in CreateInput) (userId uint64, err error) {
 	// 检查手机号是否已注册
@@ -143,7 +140,7 @@ func (s *Service) SignIn(ctx context.Context, in SignInInput) (user *entity.User
 }
 
 // IsSignedIn checks whether current user is signed in.
-// 【自己写的】检查当前用户是否已登录
+//检查当前用户是否已登录
 func (s *Service) IsSignedIn(ctx context.Context) bool {
 	if v := s.bizCtxSvc.Get(ctx); v != nil && v.User != nil {
 		return true
@@ -152,7 +149,7 @@ func (s *Service) IsSignedIn(ctx context.Context) bool {
 }
 
 // SignOut removes session for current signed-in user.
-// 【自己写的】退出登录（清除Session中的用户信息）
+//退出登录（清除Session中的用户信息）
 func (s *Service) SignOut(ctx context.Context) error {
 	return s.sessionSvc.RemoveUser(ctx)
 }
@@ -223,7 +220,7 @@ type LoginInput struct {
 }
 
 // Login 统一登录（支持邮箱或手机号，返回JWT）
-// 【自己写的】邮箱登录
+//邮箱登录
 // 步骤：查数据库校验密码 → 生成JWT Token → 返回用户信息和Token
 func (s *Service) Login(ctx context.Context, in LoginInput) (*entity.Users, string, error) {
 	var user *entity.Users
@@ -269,7 +266,7 @@ func (s *Service) Login(ctx context.Context, in LoginInput) (*entity.Users, stri
 }
 
 // SendRegisterCode 发送注册验证码到邮箱
-// 【自己写的】发送注册验证码
+//发送注册验证码
 // 步骤：检查邮箱是否已注册 → 生成4位验证码 → 存数据库（有效期5分钟）→ 发邮件
 func (s *Service) SendRegisterCode(ctx context.Context, emailAddr string) (string, error) {
 	// 检查邮箱是否已被注册
@@ -372,7 +369,7 @@ func (s *Service) EmailSignUp(ctx context.Context, emailAddr, code, password, na
 }
 
 // SendResetCode 发送密码重置验证码到邮箱
-// 【自己写的】发送重置密码验证码
+//发送重置密码验证码
 func (s *Service) SendResetCode(ctx context.Context, emailAddr string) (string, error) {
 	// 检查邮箱是否存在
 	count, err := dao.Users.Ctx(ctx).Where(do.Users{Email: emailAddr}).Count()
@@ -408,7 +405,7 @@ func (s *Service) SendResetCode(ctx context.Context, emailAddr string) (string, 
 }
 
 // ResetPassword 重置密码（验证验证码后更新密码）
-// 【自己写的】重置密码（验证验证码后更新密码）
+//重置密码（验证验证码后更新密码）
 func (s *Service) ResetPassword(ctx context.Context, emailAddr, code, newPassword string) error {
 	// 验证重置码
 	record, err := g.DB().Model("verification_codes").
@@ -446,4 +443,5 @@ func (s *Service) ResetPassword(ctx context.Context, emailAddr, code, newPasswor
 
 	return nil
 }
+
 
