@@ -18,7 +18,7 @@ import (
 	booksvc "library-management-api/internal/service/book"
 )
 
-// ControllerV1 is the controller for book API version 1.
+// ControllerV1 图书API控制器
 type ControllerV1 struct {
 	bookSvc *booksvc.Service
 }
@@ -28,5 +28,6 @@ func NewV1() bookapi.IBookV1 {
 		bookSvc: booksvc.New(),
 	}
 }
+
 
 

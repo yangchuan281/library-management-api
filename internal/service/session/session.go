@@ -18,7 +18,7 @@ import (
 
 const UserSessionKey = "UserSessionKey"
 
-// Service provides session management logic.
+// Service Session会话管理
 type Service struct {
 	bizCtxSvc *bizctx.Service
 }
@@ -57,5 +57,6 @@ func (s *Service) RemoveUser(ctx context.Context) error {
 	}
 	return nil
 }
+
 
 

@@ -16,7 +16,7 @@ import (
 	usersvc "library-management-api/internal/service/user"
 )
 
-// SignUp handles user registration.
+// SignUp 处理用户注册
 func (c *ControllerV1) SignUp(ctx context.Context, req *v1.SignUpReq) (res *v1.SignUpRes, err error) {
 	userId, err := c.userSvc.Create(ctx, usersvc.CreateInput{
 		Name:     req.Name,
@@ -48,5 +48,6 @@ func (c *ControllerV1) SignUp(ctx context.Context, req *v1.SignUpReq) (res *v1.S
 		Token: "session_active",
 	}, nil
 }
+
 
 

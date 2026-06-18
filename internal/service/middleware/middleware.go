@@ -21,7 +21,7 @@ import (
 	"github.com/gogf/gf/v2/net/ghttp"
 )
 
-// Service provides middleware for HTTP request handling.
+// Service HTTP请求中间件
 type Service struct {
 	bizCtxSvc  *bizctx.Service
 	sessionSvc *session.Service
@@ -106,5 +106,6 @@ func (s *Service) Admin(r *ghttp.Request) {
 	}
 	r.Middleware.Next()
 }
+
 
 

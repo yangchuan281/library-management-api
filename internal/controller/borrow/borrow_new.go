@@ -18,7 +18,7 @@ import (
 	borrowsvc "library-management-api/internal/service/borrow"
 )
 
-// ControllerV1 is the controller for borrow API version 1.
+// ControllerV1 借阅API控制器
 type ControllerV1 struct {
 	borrowSvc *borrowsvc.Service
 }
@@ -28,5 +28,6 @@ func NewV1() borrowapi.IBorrowV1 {
 		borrowSvc: borrowsvc.New(),
 	}
 }
+
 
 

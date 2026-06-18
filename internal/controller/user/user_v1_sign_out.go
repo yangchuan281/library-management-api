@@ -15,10 +15,11 @@ import (
 	"library-management-api/api/user/v1"
 )
 
-// SignOut handles user logout.
+// SignOut 处理用户退出登录
 func (c *ControllerV1) SignOut(ctx context.Context, req *v1.SignOutReq) (res *v1.SignOutRes, err error) {
 	err = c.userSvc.SignOut(ctx)
 	return
 }
+
 
 

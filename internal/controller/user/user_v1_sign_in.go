@@ -16,7 +16,7 @@ import (
 	usersvc "library-management-api/internal/service/user"
 )
 
-// Login 统一登录（支持邮箱或手机号）
+// Login 用户登录（支持邮箱或手机号）
 func (c *ControllerV1) Login(ctx context.Context, req *v1.LoginReq) (res *v1.LoginRes, err error) {
 	user, token, err := c.userSvc.Login(ctx, usersvc.LoginInput{
 		Email:    req.Email,
@@ -35,5 +35,6 @@ func (c *ControllerV1) Login(ctx context.Context, req *v1.LoginReq) (res *v1.Log
 		Token: token,
 	}, nil
 }
+
 
 

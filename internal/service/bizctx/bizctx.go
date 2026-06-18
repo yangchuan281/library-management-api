@@ -15,7 +15,7 @@ import (
 	"github.com/gogf/gf/v2/net/ghttp"
 )
 
-// Service provides business context related logic.
+// Service 业务上下文服务
 type Service struct{}
 
 const ContextKey = "ContextKey"
@@ -59,5 +59,6 @@ func (s *Service) Get(ctx context.Context) *Context {
 func (s *Service) SetUser(ctx context.Context, ctxUser *User) {
 	s.Get(ctx).User = ctxUser
 }
+
 
 

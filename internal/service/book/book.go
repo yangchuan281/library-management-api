@@ -19,7 +19,7 @@ import (
 	"github.com/gogf/gf/v2/frame/g"
 )
 
-// Service provides book-related business logic.
+// Service 图书业务逻辑层
 // Service 图书业务结构体
 // 【设计思路】Service层封装了所有的业务逻辑
 // Controller调用Service，Service调用DAO操作数据库
@@ -200,5 +200,6 @@ func (s *Service) Delete(ctx context.Context, id uint64) error {
 	_, err = dao.Books.Ctx(ctx).Where("id", id).Delete()
 	return err
 }
+
 
 

@@ -15,7 +15,7 @@ import (
 	"library-management-api/api/user/v1"
 )
 
-// Profile retrieves current user's profile.
+// Profile 获取当前用户的个人信息
 func (c *ControllerV1) Profile(ctx context.Context, req *v1.ProfileReq) (res *v1.ProfileRes, err error) {
 	user, err := c.userSvc.GetProfile(ctx)
 	if err != nil {
@@ -35,5 +35,6 @@ func (c *ControllerV1) Profile(ctx context.Context, req *v1.ProfileReq) (res *v1
 	}
 	return res, nil
 }
+
 
 

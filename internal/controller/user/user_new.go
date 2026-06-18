@@ -18,7 +18,7 @@ import (
 	usersvc "library-management-api/internal/service/user"
 )
 
-// ControllerV1 is the controller for user API version 1.
+// ControllerV1 用户API控制器
 type ControllerV1 struct {
 	userSvc *usersvc.Service
 }
@@ -28,5 +28,6 @@ func NewV1() userapi.IUserV1 {
 		userSvc: usersvc.New(),
 	}
 }
+
 
 

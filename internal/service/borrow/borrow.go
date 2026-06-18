@@ -22,7 +22,7 @@ import (
 	"github.com/gogf/gf/v2/os/gtime"
 )
 
-// Service provides borrow-related business logic.
+// Service 借阅业务逻辑层
 // Service 借阅业务结构体
 type Service struct {
 	bizCtxSvc *bizctx.Service
@@ -241,5 +241,6 @@ func (s *Service) GetCurrentUserId(ctx context.Context) (uint64, error) {
 	}
 	return customCtx.User.Id, nil
 }
+
 
 
